@@ -34,15 +34,15 @@ import json
 import os
 from datetime import datetime
 def run_attendance_check():
-# 1. Load Config
+
 with open('Helpers/config.json', 'r') as f:
 config = json.load(f)
-# 2. Archive old reports.log if it exists
+
 if os.path.exists('reports/reports.log'):
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 os.rename('reports/reports.log',
 f'reports/reports_{timestamp}.log.archive')
-# 3. Process Data
+
 with open('Helpers/assets.csv', mode='r') as f, open('reports/reports.log',
 'w') as log:
 reader = csv.DictReader(f)
@@ -52,7 +52,7 @@ for row in reader:
 name = row['Names']
 email = row['Email']
 attended = int(row['Attendance Count'])
-# Simple Math: (Attended / Total) * 100
+
 attendance_pct = (attended / total_sessions) * 100
 message = ""
 if attendance_pct < config['thresholds']['failure']:
